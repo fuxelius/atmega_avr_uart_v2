@@ -17,10 +17,6 @@ int main(void) {
     uint16_t c;
     uint8_t j=0;
 
-
-    // [PORTMUX_USART0_DEFAULT_gc, PORTMUX_USART0_ALT1_gc, PORTMUX_USART0_NONE_gc]
-
-
     // (0) - USART settings; 
     usart_set(&usart0, &PORTA, PORTMUX_USART0_DEFAULT_gc, PIN0_bm, PIN1_bm);
 
