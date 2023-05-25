@@ -1,4 +1,4 @@
-# Interrupt driven and buffered UART for tiny- and megaAVR
+# Interrupt driven and buffered UART for tiny- and megaAVR, Version 2
 **``By Hans-Henrik Fuxelius, 2023-05-24``
 
 This UART library is loosely based on a *Technical Brief* [[TB3216](https://ww1.microchip.com/downloads/en/Appnotes/TB3216-Getting-Started-with-USART-DS90003216.pdf)] from **Microchip** 
