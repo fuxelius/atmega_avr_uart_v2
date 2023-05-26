@@ -1,16 +1,16 @@
-# Interrupt driven and buffered UART for AVR devices
+# Interrupt driven and buffered UART for Microchip AVR devices
 **``By Hans-Henrik Fuxelius, 2023-05-24``
 
 This UART library is loosely based on a *Technical Brief* [[TB3216](https://ww1.microchip.com/downloads/en/Appnotes/TB3216-Getting-Started-with-USART-DS90003216.pdf)] from **Microchip** 
-that I have tried to adhere to in function and naming conventions. The library currently supports up to 8 cuncurrent UARTs and they can be enabled in any order and number as long as it is supported by the microcontroller. Each UART has its own circular buffer, so they work fully independent of each other.
+that I have tried to adhere to in function and naming conventions. The library currently supports up to 8 cuncurrent UARTs and they can be enabled in any order and number as long as it is supported by the microcontroller. Each UART has shared functions and its own circular buffer, so they work fully independent of each other.
 
-The library support both simple sending of strings to USART as text formatted with `fprintf`
+The library support both simple sending of strings to USART as well as text formatted with `fprintf`
 
-**Note 1**: In the text I have used [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter) for the library implementation and [USART](https://en.wikipedia.org/wiki/Universal_synchronous_and_asynchronous_receiver-transmitter) for the actual device of the microcontroller which is capable of both.
+**Note 1**: In the text I have referred to [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter) for the library implementation and [USART](https://en.wikipedia.org/wiki/Universal_synchronous_and_asynchronous_receiver-transmitter) for the actual device of the microcontroller which is capable of both.
 
-**Note 2**: The compilation step (separate compilation and linking) was done on a UNIX machine (**Mac Silicon**) but should be equally easy to compile in **Microchip Studio** as well.
+**Note 2**: The compilation step (separate compilation and linking) was done on a UNIX machine (**Mac Silicon**) but should be equally easy to compile in **Microchip Studio** as well. How to compile on Mac Silicon is described in this [tutorial](https://github.com/fuxelius/atmega4808_bare_metal)
 
-## Intended devices
+## Intended Microchip AVR devices
 
 **megaAVR 0-series**: ATmega808, ATmega809, ATmega1608, ATmega1609, ATmega3208, ATmega3209, ATmega4808 and ATmega4809.
 
