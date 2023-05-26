@@ -50,7 +50,7 @@ typedef struct {
     PORT_t*  port;                  // PORT device ptr
     register8_t* pmuxr;             // PORTMUX.USARTROUTE A B ptr
     uint8_t route;                  // PORTMUX route bm
-    uint8_t detached;               // PORTMUX_USARTn_NONE_gc
+    uint8_t detach;                 // PORTMUX_USARTn_NONE_gc
     uint8_t rx_pin;                 // Rx PIN bm
     uint8_t tx_pin;                 // Tx PIN bm
 	volatile ringbuffer_t rb_rx;	// Rx ring buffer
