@@ -1,17 +1,17 @@
 /*
  *     uart.c
  *
- *          Project:  UART for megaAVR, tinyAVR & AVR DA
+ *          Project:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
  *          Author:   Hans-Henrik Fuxelius   
  *          Date:     Uppsala, 2023-05-24           
  */
 
 #include <avr/io.h>
 #include <util/atomic.h>
+#include <util/delay.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <util/delay.h>
 #include "uart.h"
 
 #define USART_RX_ERROR_MASK (USART_BUFOVF_bm | USART_FERR_bm | USART_PERR_bm) // [Datasheet ss. 295]
@@ -58,35 +58,35 @@ char rbuffer_remove(volatile ringbuffer_t* rb) {
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // VARIABLES
 #ifdef USART0_ENABLE
-volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA};
+volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA, .detached = PORTMUX_USART0_DEFAULT_gc};
 #endif
 
 #ifdef USART1_ENABLE
-volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA};
+volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA, .detached = PORTMUX_USART1_DEFAULT_gc};
 #endif
 
 #ifdef USART2_ENABLE
-volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA};
+volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA, .detached = PORTMUX_USART2_DEFAULT_gc};
 #endif
 
 #ifdef USART3_ENABLE
-volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA};
+volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA, .detached = PORTMUX_USART3_DEFAULT_gc};
 #endif
 
 #ifdef USART4_ENABLE
-volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB};
+volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB, .detached = PORTMUX_USART0_DEFAULT_gc};
 #endif
 
 #ifdef USART5_ENABLE
-volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB};
+volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB, .detached = PORTMUX_USART1_DEFAULT_gc};
 #endif
 
 #ifdef USART6_ENABLE
-volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB};
+volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB, .detached = PORTMUX_USART2_DEFAULT_gc};
 #endif
 
 #ifdef USART7_ENABLE
-volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB};
+volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB, .detached = PORTMUX_USART3_DEFAULT_gc};
 #endif
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -139,7 +139,7 @@ void usart_close(volatile usart_meta_t* meta) {
 	meta->usart->CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm); 	// Disable Tx, Rx unit
 	meta->usart->CTRLA &= ~(USART_RXCIE_bm | USART_DREIE_bm); 	// Disable Tx, Rx interrupt
 
-	// Disable PORTMUX pins [PORTMUX_USART0_NONE_gc]
+	*meta->pmuxr |= meta->detached;								// Detach Rx, Tx PIN from unit
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----

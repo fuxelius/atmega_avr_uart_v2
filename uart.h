@@ -1,7 +1,7 @@
 /*
  *     uart.h
  *
- *          Project:  UART for megaAVR, tinyAVR & AVR DA
+ *          Project:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
  *          Author:   Hans-Henrik Fuxelius   
  *          Date:     Uppsala, 2023-05-24          
  */
@@ -48,12 +48,13 @@ typedef struct {
 typedef struct { 
 	USART_t* usart;					// USART device ptr
     PORT_t*  port;                  // PORT device ptr
-    register8_t* pmuxr;             // PORTMUX.USARTROUTE A B
+    register8_t* pmuxr;             // PORTMUX.USARTROUTE A B ptr
     uint8_t route;                  // PORTMUX route bm
-    uint8_t rx_pin;                 // Rx PIN
-    uint8_t tx_pin;                 // Tx PIN
-	volatile ringbuffer_t rb_rx;	// Receive 
-	volatile ringbuffer_t rb_tx;	// Transmit
+    uint8_t detached;               // PORTMUX_USARTn_NONE_gc
+    uint8_t rx_pin;                 // Rx PIN bm
+    uint8_t tx_pin;                 // Tx PIN bm
+	volatile ringbuffer_t rb_rx;	// Rx ring buffer
+	volatile ringbuffer_t rb_tx;	// Tx ring buffer
 	volatile uint8_t usart_error;	// Holds error from RXDATAH        
 } usart_meta_t;
 
