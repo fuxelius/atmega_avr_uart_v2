@@ -2,7 +2,7 @@
 **``By Hans-Henrik Fuxelius, 2023-05-24``
 
 This UART library is loosely based on a *Technical Brief* [[TB3216](https://ww1.microchip.com/downloads/en/Appnotes/TB3216-Getting-Started-with-USART-DS90003216.pdf)] from **Microchip** 
-that I have tried to adhere to in function and naming conventions. The library currently supports up to 4 cuncurrent UARTs and they can be enabled in any order and number as long as it is supported by the microcontroller. Each UART has its own circular buffer and code, so they work fully independent of each other.
+that I have tried to adhere to in function and naming conventions. The library currently supports up to 8 cuncurrent UARTs and they can be enabled in any order and number as long as it is supported by the microcontroller. Each UART has its own circular buffer and code, so they work fully independent of each other.
 
 The library support both simple sending of strings to USART as text formatted with `fprintf`
 
