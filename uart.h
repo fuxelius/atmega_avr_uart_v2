@@ -52,8 +52,8 @@ typedef struct {
     uint8_t route;                  // PORTMUX PIN route bm
     uint8_t rx_pin;                 // Rx PIN bm
     uint8_t tx_pin;                 // Tx PIN bm
-	volatile ringbuffer_t rb_rx;	// Rx ring buffer
-	volatile ringbuffer_t rb_tx;	// Tx ring buffer
+	volatile ringbuffer_t rb_rx;	// Rx ringbuffer
+	volatile ringbuffer_t rb_tx;	// Tx ringbuffer
 	volatile uint8_t usart_error;	// Holds error from RXDATAH        
 } usart_meta_t;
 

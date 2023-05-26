@@ -107,11 +107,11 @@ void usart_send_char(volatile usart_meta_t* meta, char c) {
 void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
 	rbuffer_init(&meta->rb_rx);								// Init Rx buffer
 	rbuffer_init(&meta->rb_tx);								// Init Tx buffer
-	*meta->pmuxr |= meta->route;							// Set PIN route			
+	*meta->pmuxr |= meta->route;							// Set Rx, Tx PIN route			
     meta->port->DIR &= ~meta->rx_pin;			    		// Rx PIN input
     meta->port->DIR |= meta->tx_pin;			    		// Tx PIN output
     meta->usart->BAUD = baud_rate; 							// Set BAUD rate
-	meta->usart->CTRLB |= (USART_RXEN_bm | USART_TXEN_bm); 	// Enable Rx & Enable Tx 
+	meta->usart->CTRLB |= (USART_RXEN_bm | USART_TXEN_bm); 	// Enable Rx, Tx units
 	meta->usart->CTRLA |= USART_RXCIE_bm; 					// Enable Rx interrupt 
 }
 
@@ -131,8 +131,8 @@ uint16_t usart_read_char(volatile usart_meta_t* meta) {
 }
 
 void usart_close(volatile usart_meta_t* meta) {
-	while(!rbuffer_empty(&meta->rb_tx)); 						// Wait for Tx to transmit all characters in ring buffer
-	while(!(meta->usart->STATUS & USART_DREIF_bm)); 			// Wait for Tx unit to transmit the last character of ringbuffer
+	while(!rbuffer_empty(&meta->rb_tx)); 						// Wait for Tx to transmit ALL characters in ringbuffer
+	while(!(meta->usart->STATUS & USART_DREIF_bm)); 			// Wait for Tx unit to transmit the LAST character of ringbuffer
 
 	_delay_ms(200); 											// Extra safety for Tx to finish!
 
