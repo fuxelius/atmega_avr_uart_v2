@@ -63,8 +63,7 @@ All setting for the library is done in `uart.h`
 	
 > Enable USARTn by uncommenting it, here USART0 is enabled
 
-Depending on microcontroller, the library supports up to 4 concurrent USART units. As previously mentioned, they can be enabled in any order and number as long as it is supported by the microcontroller. Each USART has its own circular buffer and code, so they work fully independent of each other.
-	
+Depending on microcontroller, the library supports up to 8 concurrent USART units. As previously mentioned, they can be enabled in any order and number as long as it is supported by the microcontroller. Each USART has its own independent circular Rx and Tx buffer.	
 
 ### Assign PORT, PORTMUX route and Rx, Tx Pinout
 
