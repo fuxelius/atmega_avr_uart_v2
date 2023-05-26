@@ -58,35 +58,35 @@ char rbuffer_remove(volatile ringbuffer_t* rb) {
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // VARIABLES
 #ifdef USART0_ENABLE
-volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b11111100};
+volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART1_ENABLE
-volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b11110011};
+volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART2_ENABLE
-volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b11001111};
+volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART3_ENABLE
-volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b00111111};
+volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART4_ENABLE
-volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b11111100};
+volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB};
 #endif
 
 #ifdef USART5_ENABLE
-volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b11110011};
+volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB};
 #endif
 
 #ifdef USART6_ENABLE
-volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b11001111};
+volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB};
 #endif
 
 #ifdef USART7_ENABLE
-volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b00111111};
+volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB};
 #endif
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -107,11 +107,11 @@ void usart_send_char(volatile usart_meta_t* meta, char c) {
 void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
 	rbuffer_init(&meta->rb_rx);								// Init Rx buffer
 	rbuffer_init(&meta->rb_tx);								// Init Tx buffer
-	*meta->pmuxr |= meta->route;							// Set route			
+	*meta->pmuxr |= meta->route;							// Set PIN route			
     meta->port->DIR &= ~meta->rx_pin;			    		// Rx PIN input
     meta->port->DIR |= meta->tx_pin;			    		// Tx PIN output
     meta->usart->BAUD = baud_rate; 							// Set BAUD rate
-	meta->usart->CTRLB |= USART_RXEN_bm | USART_TXEN_bm; 	// Enable Rx & Enable Tx 
+	meta->usart->CTRLB |= (USART_RXEN_bm | USART_TXEN_bm); 	// Enable Rx & Enable Tx 
 	meta->usart->CTRLA |= USART_RXCIE_bm; 					// Enable Rx interrupt 
 }
 
@@ -131,15 +131,13 @@ uint16_t usart_read_char(volatile usart_meta_t* meta) {
 }
 
 void usart_close(volatile usart_meta_t* meta) {
-	while(!rbuffer_empty(&meta->rb_tx)); 						// Wait for Tx to finish all character in ring buffer
-	while(!(meta->usart->STATUS & USART_DREIF_bm)); 			// Wait for Tx unit to finish the last character of ringbuffer
+	while(!rbuffer_empty(&meta->rb_tx)); 						// Wait for Tx to transmit all characters in ring buffer
+	while(!(meta->usart->STATUS & USART_DREIF_bm)); 			// Wait for Tx unit to transmit the last character of ringbuffer
 
 	_delay_ms(200); 											// Extra safety for Tx to finish!
 
 	meta->usart->CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm); 	// Disable Tx, Rx unit
 	meta->usart->CTRLA &= ~(USART_RXCIE_bm | USART_DREIE_bm); 	// Disable Tx, Rx interrupt
-
-	*meta->pmuxr &= meta->detach;								// Detach Rx, Tx PIN from unit
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----

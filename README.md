@@ -10,6 +10,8 @@ The library supports both simple sending of strings to USART as well as text for
 
 **Note 2**: The compilation step (separate compilation and linking) was done on a UNIX machine (**Mac Silicon**) but should be equally easy to compile in **Microchip Studio** as well. How to compile on Mac Silicon is described in this [tutorial](https://github.com/fuxelius/atmega4808_bare_metal)
 
+**Note 3**: When reffering to Datasheet in code or text it is for ATmega4808/ATmega4809
+
 ## Intended Microchip AVR devices
 
 **megaAVR 0-series**: ATmega808, ATmega809, ATmega1608, ATmega1609, ATmega3208, ATmega3209, ATmega4808 and ATmega4809.
