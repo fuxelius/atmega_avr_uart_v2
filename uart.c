@@ -156,13 +156,13 @@ FILE usart3_stream = FDEV_SETUP_STREAM(usart3_print_char, NULL, _FDEV_SETUP_WRIT
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // ISR HELPER FUNCTIONS
-void isr_usart_rxc_vect(volatile usart_meta_t* meta) {
+static inline void isr_usart_rxc_vect(volatile usart_meta_t* meta) {
     char data = meta->usart->RXDATAL;
 	rbuffer_insert(data, &meta->rb_rx);
 	meta->usart_error = meta->usart->RXDATAH;
 }
 
-void isr_usart_dre_vect(volatile usart_meta_t* meta) {
+static inline void isr_usart_dre_vect(volatile usart_meta_t* meta) {
 	if(!rbuffer_empty(&meta->rb_tx)) {
 		meta->usart->TXDATAL = rbuffer_remove(&meta->rb_tx);     
 	}
