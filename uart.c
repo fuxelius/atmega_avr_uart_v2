@@ -139,7 +139,7 @@ void usart_close(volatile usart_meta_t* meta) {
 	meta->usart->CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm); 	// Disable Tx, Rx unit
 	meta->usart->CTRLA &= ~(USART_RXCIE_bm | USART_DREIE_bm); 	// Disable Tx, Rx interrupt
 
-	*meta->pmuxr |= meta->detach;								// Detach Rx, Tx PIN from unit
+	*meta->pmuxr &= ~meta->detach;								// Detach Rx, Tx PIN from unit
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
