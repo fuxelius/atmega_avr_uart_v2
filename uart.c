@@ -18,31 +18,31 @@
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // RINGBUFFER FUNCTIONS
-void rbuffer_init(volatile ringbuffer* rb) {
+void rbuffer_init(volatile ringbuffer_t* rb) {
 	rb->in = 0;
 	rb->out = 0;
 	rb->count = 0;
 }
 
-uint8_t rbuffer_count(volatile ringbuffer* rb) {
+uint8_t rbuffer_count(volatile ringbuffer_t* rb) {
 	return rb->count;
 }
 
-bool rbuffer_full(volatile ringbuffer* rb) {
+bool rbuffer_full(volatile ringbuffer_t* rb) {
 	return (rb->count == (uint8_t)RBUFFER_SIZE);
 }
 
-bool rbuffer_empty(volatile ringbuffer* rb) {
+bool rbuffer_empty(volatile ringbuffer_t* rb) {
 	return (rb->count == 0);
 }
 
-void rbuffer_insert(char data, volatile ringbuffer* rb) {   
+void rbuffer_insert(char data, volatile ringbuffer_t* rb) {   
 	*(rb->buffer + rb->in) = data;
 	rb->in = (rb->in + 1) & ((uint8_t)RBUFFER_SIZE - 1);
 	rb->count++;
 }
 
-char rbuffer_remove(volatile ringbuffer* rb) {
+char rbuffer_remove(volatile ringbuffer_t* rb) {
 	char data = *(rb->buffer + rb->out);
 	rb->out = (rb->out + 1) & ((uint8_t)RBUFFER_SIZE - 1);
 	rb->count--;
@@ -52,40 +52,40 @@ char rbuffer_remove(volatile ringbuffer* rb) {
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // VARIABLES
 #ifdef USART0_ENABLE
-volatile usart_meta usart0 = {.usart = &USART0};
+volatile usart_meta_t usart0 = {.usart = &USART0};
 #endif
 
 #ifdef USART1_ENABLE
-volatile usart_meta usart1 = {.usart = &USART1};
+volatile usart_meta_t usart1 = {.usart = &USART1};
 #endif
 
 #ifdef USART2_ENABLE
-volatile usart_meta usart2 = {.usart = &USART2};
+volatile usart_meta_t usart2 = {.usart = &USART2};
 #endif
 
 #ifdef USART3_ENABLE
-volatile usart_meta usart3 = {.usart = &USART3};
+volatile usart_meta_t usart3 = {.usart = &USART3};
 #endif
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // USART FUNCTIONS
-void usart_set(volatile usart_meta* meta, PORT_t*  port, uint8_t route, uint8_t tx_pin, uint8_t rx_pin) {
+void usart_set(volatile usart_meta_t* meta, PORT_t*  port, uint8_t route, uint8_t tx_pin, uint8_t rx_pin) {
 	meta->port = port;
 	meta->route = route;
 	meta->tx_pin = tx_pin;
 	meta->rx_pin = rx_pin;
 }
 
-void usart_send_char(volatile usart_meta* meta, char c) {
+void usart_send_char(volatile usart_meta_t* meta, char c) {
 	while(rbuffer_full(&meta->rb_tx));
 	rbuffer_insert(c, &meta->rb_tx);
 	meta->usart->CTRLA |= USART_DREIE_bm;					// Enable Tx interrupt 
 }
 
-void usart_init(volatile usart_meta* meta, uint16_t baud_rate) {
+void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
 	rbuffer_init(&meta->rb_rx);								// Init Rx buffer
 	rbuffer_init(&meta->rb_tx);								// Init Tx buffer
-    PORTMUX.USARTROUTEA |= meta->route;   					// Set route
+    PORTMUX.USARTROUTEA |= meta->route;   					// Set route             <----------------------------------- UGGLY
     meta->port->DIR &= ~meta->rx_pin;			    		// Rx PIN input
     meta->port->DIR |= meta->tx_pin;			    		// Tx PIN output
     meta->usart->BAUD = baud_rate; 							// Set BAUD rate
@@ -93,13 +93,13 @@ void usart_init(volatile usart_meta* meta, uint16_t baud_rate) {
 	meta->usart->CTRLA |= USART_RXCIE_bm; 					// Enable Rx interrupt 
 }
 
-void usart_send_string(volatile usart_meta* meta, char* str, uint8_t len) {
+void usart_send_string(volatile usart_meta_t* meta, char* str, uint8_t len) {
 	for (size_t i=0; i<len; i++) {
 		usart_send_char(meta, str[i]);
 	}
 }
 
-uint16_t usart_read_char(volatile usart_meta* meta) {
+uint16_t usart_read_char(volatile usart_meta_t* meta) {
 	if (!rbuffer_empty(&meta->rb_rx)) {
 		return (((meta->usart_error & USART_RX_ERROR_MASK) << 8) | (uint16_t)rbuffer_remove(&meta->rb_rx));
 	}
@@ -108,7 +108,7 @@ uint16_t usart_read_char(volatile usart_meta* meta) {
 	}
 }
 
-void usart_close(volatile usart_meta* meta) {
+void usart_close(volatile usart_meta_t* meta) {
 	while(!rbuffer_empty(&meta->rb_tx)); 						// Wait for Tx to finish all character in ring buffer
 	while(!(meta->usart->STATUS & USART_DREIF_bm)); 			// Wait for Tx unit to finish the last character of ringbuffer
 
@@ -156,13 +156,13 @@ FILE usart3_stream = FDEV_SETUP_STREAM(usart3_print_char, NULL, _FDEV_SETUP_WRIT
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // ISR HELPER FUNCTIONS
-void isr_usart_rxc_vect(volatile usart_meta* meta) {
+void isr_usart_rxc_vect(volatile usart_meta_t* meta) {
     char data = meta->usart->RXDATAL;
 	rbuffer_insert(data, &meta->rb_rx);
 	meta->usart_error = meta->usart->RXDATAH;
 }
 
-void isr_usart_dre_vect(volatile usart_meta* meta) {
+void isr_usart_dre_vect(volatile usart_meta_t* meta) {
 	if(!rbuffer_empty(&meta->rb_tx)) {
 		meta->usart->TXDATAL = rbuffer_remove(&meta->rb_tx);     
 	}
