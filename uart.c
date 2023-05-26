@@ -58,35 +58,35 @@ char rbuffer_remove(volatile ringbuffer_t* rb) {
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // VARIABLES
 #ifdef USART0_ENABLE
-volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA, .detach = PORTMUX_USART0_DEFAULT_gc};
+volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b11111100};
 #endif
 
 #ifdef USART1_ENABLE
-volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA, .detach = PORTMUX_USART1_DEFAULT_gc};
+volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b11110011};
 #endif
 
 #ifdef USART2_ENABLE
-volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA, .detach = PORTMUX_USART2_DEFAULT_gc};
+volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b11001111};
 #endif
 
 #ifdef USART3_ENABLE
-volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA, .detach = PORTMUX_USART3_DEFAULT_gc};
+volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA, .detach = 0b00111111};
 #endif
 
 #ifdef USART4_ENABLE
-volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB, .detach = PORTMUX_USART0_DEFAULT_gc};
+volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b11111100};
 #endif
 
 #ifdef USART5_ENABLE
-volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB, .detach = PORTMUX_USART1_DEFAULT_gc};
+volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b11110011};
 #endif
 
 #ifdef USART6_ENABLE
-volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB, .detach = PORTMUX_USART2_DEFAULT_gc};
+volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b11001111};
 #endif
 
 #ifdef USART7_ENABLE
-volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB, .detach = PORTMUX_USART3_DEFAULT_gc};
+volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB, .detach = 0b00111111};
 #endif
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
