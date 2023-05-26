@@ -1,4 +1,4 @@
-# Interrupt driven and buffered UART for tiny- and megaAVR, Version 2
+# Interrupt driven and buffered UART for AVR devices
 **``By Hans-Henrik Fuxelius, 2023-05-24``
 
 This UART library is loosely based on a *Technical Brief* [[TB3216](https://ww1.microchip.com/downloads/en/Appnotes/TB3216-Getting-Started-with-USART-DS90003216.pdf)] from **Microchip** 
@@ -18,7 +18,13 @@ The library support both simple sending of strings to USART as text formatted wi
 
 **tinyAVR 1-series**: ATtiny212, ATtiny412, ATtiny214, ATtiny414, ATtiny814, ATtiny1614, ATtiny416, ATtiny816, ATtiny1616, ATtiny3216, ATtiny417, ATtiny817, ATtiny1617 and ATtiny3217 
 
-**AVR DA devices**: AVR32DA28, AVR64DA28, AVR128DA28, AVR32DA32, AVR64DA32, AVR128DA32, AVR32DA48, AVR64DA48, AVR128DA48, AVR64DA64, AVR128DA64
+**AVR DA devices**: AVR32DA28, AVR64DA28, AVR128DA28, AVR32DA32, AVR64DA32, AVR128DA32, AVR32DA48, AVR64DA48, AVR128DA48, AVR64DA64 and AVR128DA64
+
+**AVR DD devices**: AVR16DD14, AVR32DD14, AVR64DD14, AVR16DD20, AVR32DD20, AVR64DD20, AVR16DD28, AVR32DD28, AVR64DD28, AVR16DD32, AVR32DD32 and AVR64DD32
+
+**AVR DB devices**: AVR32DB28, AVR64DB28, AVR128DB28, AVR32DB32, AVR64DB32, AVR128DB32, AVR32DB48, AVR64DB48, AVR128DB48, AVR64DB64 and AVR128DB64
+
+**AVR EA devices**: AVR16EA28, AVR32EA28, AVR64EA28, AVR16EA32, AVR32EA32, AVR64EA32, AVR16EA48, AVR32EA48 and AVR64EA48
 
 This library was initially developed for a [bare metal atmega4808](https://github.com/fuxelius/atmega4808_bare_metal) project. If you use the ATmega4808 and USART0 it will compile out of the box, otherwise some settings must be done before it works. The setup process of the library is direct and will be outlined below.
 
@@ -50,7 +56,10 @@ All setting for the library is done in `uart.h`
 	// #define USART1_ENABLE
 	// #define USART2_ENABLE
 	// #define USART3_ENABLE
-
+	// #define USART4_ENABLE
+	// #define USART5_ENABLE
+	// #define USART6_ENABLE
+	// #define USART7_ENABLE
 	
 > Enable USARTn by uncommenting it, here USART0 is enabled
 
@@ -99,7 +108,7 @@ Sends a complete string to USART
 Polling with read_char is used for reading input from an USART
 
 ### close
-To be able to close a unit in a proper way is essential for proper operation. This makes it possible to initialize and close units as they are needed.
+To be able to close a unit in a mannered way is essential for proper operation, especially if you implement a protocol on top of it. This makes it possible to initialize and close units as they are needed.
 
 ## How to use the library
 Here is a short overview of how to use the library. The **order of calling** `usart_init()`, `sei()` and `usart_close()`, `cli()` is crucial for correct operation. A **correct session** looks like below!

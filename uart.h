@@ -20,6 +20,10 @@
 // #define USART1_ENABLE
 // #define USART2_ENABLE
 // #define USART3_ENABLE
+// #define USART4_ENABLE
+// #define USART5_ENABLE
+// #define USART6_ENABLE
+// #define USART7_ENABLE
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 #define USART_BUFFER_OVERFLOW    0x6400      // ==USART_BUFOVF_bm  
@@ -44,11 +48,12 @@ typedef struct {
 typedef struct { 
 	USART_t* usart;					// USART device ptr
     PORT_t*  port;                  // PORT device ptr
-    uint8_t route;                  // PORTMUX.USARTROUTE A B
+    register8_t* pmuxr;             // PORTMUX.USARTROUTE A B
+    uint8_t route;                  // PORTMUX route bm
     uint8_t rx_pin;                 // Rx PIN
     uint8_t tx_pin;                 // Tx PIN
-	volatile ringbuffer_t rb_rx;		// Receive 
-	volatile ringbuffer_t rb_tx;		// Transmit
+	volatile ringbuffer_t rb_rx;	// Receive 
+	volatile ringbuffer_t rb_tx;	// Transmit
 	volatile uint8_t usart_error;	// Holds error from RXDATAH        
 } usart_meta_t;
 
@@ -80,4 +85,24 @@ extern volatile usart_meta_t usart2;
 #ifdef USART3_ENABLE
 extern FILE usart3_stream;
 extern volatile usart_meta_t usart3;
+#endif
+
+#ifdef USART4_ENABLE
+extern FILE usart4_stream;
+extern volatile usart_meta_t usart4;
+#endif
+
+#ifdef USART5_ENABLE
+extern FILE usart5_stream;
+extern volatile usart_meta_t usart5;
+#endif
+
+#ifdef USART6_ENABLE
+extern FILE usart6_stream;
+extern volatile usart_meta_t usart6;
+#endif
+
+#ifdef USART7_ENABLE
+extern FILE usart7_stream;
+extern volatile usart_meta_t usart7;
 #endif

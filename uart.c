@@ -52,26 +52,42 @@ char rbuffer_remove(volatile ringbuffer_t* rb) {
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // VARIABLES
 #ifdef USART0_ENABLE
-volatile usart_meta_t usart0 = {.usart = &USART0};
+volatile usart_meta_t usart0 = {.usart = &USART0, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART1_ENABLE
-volatile usart_meta_t usart1 = {.usart = &USART1};
+volatile usart_meta_t usart1 = {.usart = &USART1, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART2_ENABLE
-volatile usart_meta_t usart2 = {.usart = &USART2};
+volatile usart_meta_t usart2 = {.usart = &USART2, .pmuxr = &PORTMUX.USARTROUTEA};
 #endif
 
 #ifdef USART3_ENABLE
-volatile usart_meta_t usart3 = {.usart = &USART3};
+volatile usart_meta_t usart3 = {.usart = &USART3, .pmuxr = &PORTMUX.USARTROUTEA};
+#endif
+
+#ifdef USART4_ENABLE
+volatile usart_meta_t usart4 = {.usart = &USART4, .pmuxr = &PORTMUX.USARTROUTEB};
+#endif
+
+#ifdef USART5_ENABLE
+volatile usart_meta_t usart5 = {.usart = &USART5, .pmuxr = &PORTMUX.USARTROUTEB};
+#endif
+
+#ifdef USART6_ENABLE
+volatile usart_meta_t usart6 = {.usart = &USART6, .pmuxr = &PORTMUX.USARTROUTEB};
+#endif
+
+#ifdef USART7_ENABLE
+volatile usart_meta_t usart7 = {.usart = &USART7, .pmuxr = &PORTMUX.USARTROUTEB};
 #endif
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // USART FUNCTIONS
-void usart_set(volatile usart_meta_t* meta, PORT_t*  port, uint8_t route, uint8_t tx_pin, uint8_t rx_pin) {
+void usart_set(volatile usart_meta_t* meta, PORT_t*  port, uint8_t route_gc, uint8_t tx_pin, uint8_t rx_pin) {
 	meta->port = port;
-	meta->route = route;
+	meta->route = route_gc;
 	meta->tx_pin = tx_pin;
 	meta->rx_pin = rx_pin;
 }
@@ -85,7 +101,7 @@ void usart_send_char(volatile usart_meta_t* meta, char c) {
 void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
 	rbuffer_init(&meta->rb_rx);								// Init Rx buffer
 	rbuffer_init(&meta->rb_tx);								// Init Tx buffer
-    PORTMUX.USARTROUTEA |= meta->route;   					// Set route             <----------------------------------- UGGLY
+	*meta->pmuxr |= meta->route;							// Set route			
     meta->port->DIR &= ~meta->rx_pin;			    		// Rx PIN input
     meta->port->DIR |= meta->tx_pin;			    		// Tx PIN output
     meta->usart->BAUD = baud_rate; 							// Set BAUD rate
@@ -154,6 +170,38 @@ int usart3_print_char(char c, FILE *stream) {
 FILE usart3_stream = FDEV_SETUP_STREAM(usart3_print_char, NULL, _FDEV_SETUP_WRITE);
 #endif
 
+#ifdef USART4_ENABLE
+int usart4_print_char(char c, FILE *stream) { 
+    usart_send_char(&usart4, c);							
+    return 0; 
+}
+FILE usart4_stream = FDEV_SETUP_STREAM(usart4_print_char, NULL, _FDEV_SETUP_WRITE);
+#endif
+
+#ifdef USART5_ENABLE
+int usart5_print_char(char c, FILE *stream) { 
+    usart_send_char(&usart5, c);							
+    return 0; 
+}
+FILE usart5_stream = FDEV_SETUP_STREAM(usart5_print_char, NULL, _FDEV_SETUP_WRITE);
+#endif
+
+#ifdef USART6_ENABLE
+int usart6_print_char(char c, FILE *stream) { 
+    usart_send_char(&usart6, c);							
+    return 0; 
+}
+FILE usart6_stream = FDEV_SETUP_STREAM(usart6_print_char, NULL, _FDEV_SETUP_WRITE);
+#endif
+
+#ifdef USART7_ENABLE
+int usart7_print_char(char c, FILE *stream) { 
+    usart_send_char(&usart7, c);							
+    return 0; 
+}
+FILE usart7_stream = FDEV_SETUP_STREAM(usart7_print_char, NULL, _FDEV_SETUP_WRITE);
+#endif
+
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // ISR HELPER FUNCTIONS
 static inline void isr_usart_rxc_vect(volatile usart_meta_t* meta) {
@@ -206,5 +254,41 @@ ISR(USART3_RXC_vect) {
 }
 ISR(USART3_DRE_vect) {
 	isr_usart_dre_vect(&usart3);
+}
+#endif
+
+#ifdef USART4_ENABLE
+ISR(USART4_RXC_vect) {
+	isr_usart_rxc_vect(&usart4);
+}
+ISR(USART4_DRE_vect) {
+	isr_usart_dre_vect(&usart4);
+}
+#endif
+
+#ifdef USART5_ENABLE
+ISR(USART5_RXC_vect) {
+	isr_usart_rxc_vect(&usart5);
+}
+ISR(USART5_DRE_vect) {
+	isr_usart_dre_vect(&usart5);
+}
+#endif
+
+#ifdef USART6_ENABLE
+ISR(USART6_RXC_vect) {
+	isr_usart_rxc_vect(&usart6);
+}
+ISR(USART6_DRE_vect) {
+	isr_usart_dre_vect(&usart6);
+}
+#endif
+
+#ifdef USART7_ENABLE
+ISR(USART7_RXC_vect) {
+	isr_usart_rxc_vect(&usart7);
+}
+ISR(USART7_DRE_vect) {
+	isr_usart_dre_vect(&usart7);
 }
 #endif
