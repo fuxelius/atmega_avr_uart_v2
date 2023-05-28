@@ -116,7 +116,7 @@ void usart_send_char(volatile usart_meta_t* meta, char c) {
 	meta->usart->CTRLA |= USART_DREIE_bm;					// Enable Tx interrupt 
 }
 
-void usart_send_string(volatile usart_meta_t* meta, char* str) {
+void usart_send_string(volatile usart_meta_t* meta, const char* str) {
     while (*str) {
     	usart_send_char(meta, *str++);
 	}

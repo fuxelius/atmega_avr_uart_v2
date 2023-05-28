@@ -33,12 +33,8 @@ int main(void) {
         // (2) - Enable global interrupts
         sei(); 
 
-        // usart_send_string(&usart0, "U");
-        // usart_send_char(&usart0, 'X');
-        // usart_send_string_P(&usart0, PSTR("\r\nCounter value is: 0x%02X "), 66);
-
         // (3) - Send string to USART
-        usart_send_string(&usart0, "\r\n\r\nPEACE BRO!\r\n\r\n");
+        usart_send_string(&usart0, "\r\n\r\nLove & Peace!\r\n\r\n");
 
         // (4) - Use sprintf_P, fputs to write to stream
         sprintf_P(buffer, PSTR("Hello world!\r\n"));

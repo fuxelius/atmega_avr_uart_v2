@@ -15,7 +15,7 @@
 #define RBUFFER_SIZE 32  
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-// UNCOMMENT USARTn TO ENABLE 
+// UNCOMMENT TO ENABLE USARTn
 #define USART0_ENABLE
 // #define USART1_ENABLE
 // #define USART2_ENABLE
@@ -66,7 +66,7 @@ typedef struct {
 void usart_set(volatile usart_meta_t* meta, PORT_t*  port, uint8_t route, uint8_t tx_pin, uint8_t rx_pin);
 void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate);
 void usart_send_char(volatile usart_meta_t* meta, char c);
-void usart_send_string(volatile usart_meta_t* meta, char* str);
+void usart_send_string(volatile usart_meta_t* meta, const char* str);
 void usart_send_string_P(volatile usart_meta_t* meta, const char* chr);
 uint16_t usart_read_char(volatile usart_meta_t* meta);
 void usart_close(volatile usart_meta_t* meta);
