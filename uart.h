@@ -26,6 +26,10 @@
 // #define USART7_ENABLE
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+// UNCOMMENT
+// #define fprintf ??????????
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 #define USART_BUFFER_OVERFLOW    0x6400      // ==USART_BUFOVF_bm  
 #define USART_FRAME_ERROR        0x0400      // ==USART_FERR_bm             
 #define USART_PARITY_ERROR       0x0200      // ==USART_PERR_bm      
@@ -68,41 +72,41 @@ void usart_close(volatile usart_meta_t* meta);
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 #ifdef USART0_ENABLE
-extern FILE usart0_stream;
 extern volatile usart_meta_t usart0;
+extern FILE usart0_stream;
 #endif
 
 #ifdef USART1_ENABLE
-extern FILE usart1_stream;
 extern volatile usart_meta_t usart1;
+extern FILE usart1_stream;
 #endif
 
 #ifdef USART2_ENABLE
-extern FILE usart2_stream;
 extern volatile usart_meta_t usart2;
+extern FILE usart2_stream;
 #endif
 
 #ifdef USART3_ENABLE
-extern FILE usart3_stream;
 extern volatile usart_meta_t usart3;
+extern FILE usart3_stream;
 #endif
 
 #ifdef USART4_ENABLE
-extern FILE usart4_stream;
 extern volatile usart_meta_t usart4;
+extern FILE usart4_stream;
 #endif
 
 #ifdef USART5_ENABLE
-extern FILE usart5_stream;
 extern volatile usart_meta_t usart5;
+extern FILE usart5_stream;
 #endif
 
 #ifdef USART6_ENABLE
-extern FILE usart6_stream;
 extern volatile usart_meta_t usart6;
+extern FILE usart6_stream;
 #endif
 
 #ifdef USART7_ENABLE
-extern FILE usart7_stream;
 extern volatile usart_meta_t usart7;
+extern FILE usart7_stream;
 #endif
