@@ -224,8 +224,11 @@ static inline void isr_usart_rxc_vect(volatile usart_meta_t* meta) {
     char data = meta->usart->RXDATAL;
 	if(!rbuffer_full(&meta->rb_rx)) {
 		rbuffer_insert(data, &meta->rb_rx); 	
+		meta->usart_error = meta->usart->RXDATAH;
 	}			
-	meta->usart_error = meta->usart->RXDATAH;
+	else {
+		meta->usart_error = (meta->usart->RXDATAH | USART_BUFFER_OVERFLOW>>8);
+	}
 }
 
 static inline void isr_usart_dre_vect(volatile usart_meta_t* meta) {
