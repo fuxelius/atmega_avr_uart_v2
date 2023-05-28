@@ -99,12 +99,6 @@ void usart_set(volatile usart_meta_t* meta, PORT_t*  port, uint8_t route_gc, uin
 	meta->rx_pin = rx_pin;
 }
 
-void usart_send_char(volatile usart_meta_t* meta, char c) {
-	while(rbuffer_full(&meta->rb_tx));
-	rbuffer_insert(c, &meta->rb_tx);
-	meta->usart->CTRLA |= USART_DREIE_bm;					// Enable Tx interrupt 
-}
-
 void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
 	rbuffer_init(&meta->rb_rx);								// Init Rx buffer
 	rbuffer_init(&meta->rb_tx);								// Init Tx buffer
@@ -114,6 +108,12 @@ void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
     meta->usart->BAUD = baud_rate; 							// Set BAUD rate
 	meta->usart->CTRLB |= (USART_RXEN_bm | USART_TXEN_bm); 	// Enable Rx, Tx units
 	meta->usart->CTRLA |= USART_RXCIE_bm; 					// Enable Rx interrupt 
+}
+
+void usart_send_char(volatile usart_meta_t* meta, char c) {
+	while(rbuffer_full(&meta->rb_tx));
+	rbuffer_insert(c, &meta->rb_tx);
+	meta->usart->CTRLA |= USART_DREIE_bm;					// Enable Tx interrupt 
 }
 
 void usart_send_string(volatile usart_meta_t* meta, char* str) {
@@ -149,8 +149,7 @@ void usart_close(volatile usart_meta_t* meta) {
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-// STREAM SETUP
-
+// STREAM SETUP (OPTIONAL)
 #ifdef USART_STREAM
 
 	#ifdef USART0_ENABLE
