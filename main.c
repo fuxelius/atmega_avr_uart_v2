@@ -49,14 +49,14 @@ int main(void) {
             while(!((c = usart_read_char(&usart0)) & USART_NO_DATA)) {
 
                 if (c & USART_PARITY_ERROR) {
-                    usart_send_string_P(&usart0, PSTR("USART PARITY ERROR: "));
+                    usart_send_string_P(&usart0, PSTR("USART PARITY ERROR:\r\n"));
 
                 }
                 if (c & USART_FRAME_ERROR) {
-                    usart_send_string_P(&usart0, PSTR("USART FRAME ERROR: "));
+                    usart_send_string_P(&usart0, PSTR("USART FRAME ERROR:\r\n"));
                 }
                 if (c & USART_BUFFER_OVERFLOW) {
-                    usart_send_string_P(&usart0, PSTR("USART BUFFER OVERFLOW ERROR: "));
+                    usart_send_string_P(&usart0, PSTR("USART BUFFER OVERFLOW ERROR:\r\n"));
                 }
 
                 // (7) - Send single character to USART

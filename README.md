@@ -1,10 +1,10 @@
-# Library: Interrupt driven and buffered UART for Microchip AVR devices
+# LIBRARY: Interrupt driven and buffered UART for Microchip AVR devices
 **``By Hans-Henrik Fuxelius, 2023-05-24``
 
 This UART library is loosely based on a *Technical Brief* [[TB3216](https://ww1.microchip.com/downloads/en/Appnotes/TB3216-Getting-Started-with-USART-DS90003216.pdf)] from **Microchip** 
 that I have tried to adhere to in function and naming conventions. The library currently supports up to 8 cuncurrent UARTs and they can be enabled in any order and number as long as it is supported by the microcontroller. Each UART has shared functions and its own circular buffer, so they work fully independent of each other.
 
-The library supports both simple sending of strings to USART as well as text formatted with `fprintf`
+The library supports both simple sending of character and strings to USART as well as text formatted to a `FILE` stream
 
 **Note 1**: In the text I have referred to [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter) for the library implementation and [USART](https://en.wikipedia.org/wiki/Universal_synchronous_and_asynchronous_receiver-transmitter) for the actual device of the microcontroller which is capable of both.
 
