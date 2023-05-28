@@ -222,7 +222,9 @@ void usart_close(volatile usart_meta_t* meta) {
 // ISR HELPER FUNCTIONS
 static inline void isr_usart_rxc_vect(volatile usart_meta_t* meta) {
     char data = meta->usart->RXDATAL;
-	rbuffer_insert(data, &meta->rb_rx);
+	if(!rbuffer_full(&meta->rb_rx)) {
+		rbuffer_insert(data, &meta->rb_rx); 	
+	}			
 	meta->usart_error = meta->usart->RXDATAH;
 }
 
