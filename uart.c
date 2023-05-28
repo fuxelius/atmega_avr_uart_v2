@@ -7,6 +7,7 @@
  */
 
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include <util/atomic.h>
 #include <util/delay.h>
 #include <stdbool.h>
@@ -115,9 +116,16 @@ void usart_init(volatile usart_meta_t* meta, uint16_t baud_rate) {
 	meta->usart->CTRLA |= USART_RXCIE_bm; 					// Enable Rx interrupt 
 }
 
-void usart_send_string(volatile usart_meta_t* meta, char* str, uint8_t len) {
-	for (size_t i=0; i<len; i++) {
-		usart_send_char(meta, str[i]);
+void usart_send_string(volatile usart_meta_t* meta, char* str) {
+    while (*str) {
+    	usart_send_char(meta, *str++);
+	}
+}
+
+void usart_send_string_P(volatile usart_meta_t* meta, const char* chr) {
+    char c;
+    while ((c = pgm_read_byte(chr++))) {
+      	usart_send_char(meta, c);
 	}
 }
 
@@ -142,68 +150,73 @@ void usart_close(volatile usart_meta_t* meta) {
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // STREAM SETUP
-#ifdef USART0_ENABLE
-int usart0_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart0, c);							
-    return 0; 
-}
-FILE usart0_stream = FDEV_SETUP_STREAM(usart0_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
 
-#ifdef USART1_ENABLE
-int usart1_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart1, c);							
-    return 0; 
-}
-FILE usart1_stream = FDEV_SETUP_STREAM(usart1_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
+#ifdef USART_STREAM
 
-#ifdef USART2_ENABLE
-int usart2_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart2, c);							
-    return 0; 
-}
-FILE usart2_stream = FDEV_SETUP_STREAM(usart2_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
+	#ifdef USART0_ENABLE
+	int usart0_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart0, c);							
+		return 0; 
+	}
+	FILE usart0_stream = FDEV_SETUP_STREAM(usart0_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
 
-#ifdef USART3_ENABLE
-int usart3_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart3, c);							
-    return 0; 
-}
-FILE usart3_stream = FDEV_SETUP_STREAM(usart3_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
+	#ifdef USART1_ENABLE
+	int usart1_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart1, c);							
+		return 0; 
+	}
+	FILE usart1_stream = FDEV_SETUP_STREAM(usart1_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
 
-#ifdef USART4_ENABLE
-int usart4_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart4, c);							
-    return 0; 
-}
-FILE usart4_stream = FDEV_SETUP_STREAM(usart4_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
+	#ifdef USART2_ENABLE
+	int usart2_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart2, c);							
+		return 0; 
+	}
+	FILE usart2_stream = FDEV_SETUP_STREAM(usart2_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
 
-#ifdef USART5_ENABLE
-int usart5_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart5, c);							
-    return 0; 
-}
-FILE usart5_stream = FDEV_SETUP_STREAM(usart5_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
+	#ifdef USART3_ENABLE
+	int usart3_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart3, c);							
+		return 0; 
+	}
+	FILE usart3_stream = FDEV_SETUP_STREAM(usart3_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
 
-#ifdef USART6_ENABLE
-int usart6_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart6, c);							
-    return 0; 
-}
-FILE usart6_stream = FDEV_SETUP_STREAM(usart6_print_char, NULL, _FDEV_SETUP_WRITE);
-#endif
+	#ifdef USART4_ENABLE
+	int usart4_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart4, c);							
+		return 0; 
+	}
+	FILE usart4_stream = FDEV_SETUP_STREAM(usart4_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
 
-#ifdef USART7_ENABLE
-int usart7_print_char(char c, FILE *stream) { 
-    usart_send_char(&usart7, c);							
-    return 0; 
-}
-FILE usart7_stream = FDEV_SETUP_STREAM(usart7_print_char, NULL, _FDEV_SETUP_WRITE);
+	#ifdef USART5_ENABLE
+	int usart5_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart5, c);							
+		return 0; 
+	}
+	FILE usart5_stream = FDEV_SETUP_STREAM(usart5_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
+
+	#ifdef USART6_ENABLE
+	int usart6_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart6, c);							
+		return 0; 
+	}
+	FILE usart6_stream = FDEV_SETUP_STREAM(usart6_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
+
+	#ifdef USART7_ENABLE
+	int usart7_print_char(char c, FILE *stream) { 
+		usart_send_char(&usart7, c);							
+		return 0; 
+	}
+	FILE usart7_stream = FDEV_SETUP_STREAM(usart7_print_char, NULL, _FDEV_SETUP_WRITE);
+	#endif
+
 #endif
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
