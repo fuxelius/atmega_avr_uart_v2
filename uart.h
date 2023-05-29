@@ -2,10 +2,10 @@
  *     uart.h
  *
  *          Description:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
- *          Author:       Hans-Henrik Fuxelius   
- *          Date:         Uppsala, 2023-05-29 
+ *          Author:       Hans-Henrik Fuxelius
+ *          Date:         Uppsala, 2023-05-29
  *          License:      MIT
- *          Version:      RC1         
+ *          Version:      RC1
  */
 
 #include <avr/io.h>
@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-// DEFINE RING BUFFER SIZE; MUST BE 2, 4, 8, 16, 32, 64 or 128  
+// DEFINE RING BUFFER SIZE; MUST BE 2, 4, 8, 16, 32, 64 or 128
 #define RBUFFER_SIZE 32  
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -32,9 +32,9 @@
 #define USART_STREAM
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-#define USART_BUFFER_OVERFLOW    0x6400      // ==USART_BUFOVF_bm  
-#define USART_FRAME_ERROR        0x0400      // ==USART_FERR_bm             
-#define USART_PARITY_ERROR       0x0200      // ==USART_PERR_bm      
+#define USART_BUFFER_OVERFLOW    0x6400      // ==USART_BUFOVF_bm
+#define USART_FRAME_ERROR        0x0400      // ==USART_FERR_bm
+#define USART_PARITY_ERROR       0x0200      // ==USART_PERR_bm
 #define USART_NO_DATA            0x0100      
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -43,24 +43,24 @@
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // RINGBUFFER STRUCT
 typedef struct { 
-    volatile char     buffer[RBUFFER_SIZE];     
-    volatile uint8_t  in;                           
-    volatile uint8_t  out;                          
-    volatile uint8_t  count;         
+    volatile char     buffer[RBUFFER_SIZE];
+    volatile uint8_t  in;
+    volatile uint8_t  out;
+    volatile uint8_t  count;
 } ringbuffer_t;
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 // USART META STRUCT
 typedef struct { 
-	USART_t* usart;					// USART device ptr
+    USART_t* usart;                 // USART device ptr
     PORT_t*  port;                  // PORT device ptr
     register8_t* pmuxr;             // PORTMUX.USARTROUTE A B ptr
     uint8_t route;                  // PORTMUX PIN route bm
     uint8_t rx_pin;                 // Rx PIN bm
     uint8_t tx_pin;                 // Tx PIN bm
-	volatile ringbuffer_t rb_rx;	// Rx ringbuffer
-	volatile ringbuffer_t rb_tx;	// Tx ringbuffer
-	volatile uint8_t usart_error;	// Holds error from RXDATAH        
+    volatile ringbuffer_t rb_rx;    // Rx ringbuffer
+    volatile ringbuffer_t rb_tx;    // Tx ringbuffer
+    volatile uint8_t usart_error;   // Holds error from RXDATAH
 } usart_meta_t;
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
