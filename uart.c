@@ -46,7 +46,7 @@ void rbuffer_insert(char data, volatile ringbuffer_t* rb) {
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
         rb->in = (rb->in + 1) & ((uint8_t)RBUFFER_SIZE - 1);
         rb->count++;
-	}
+    }
 }
 
 char rbuffer_remove(volatile ringbuffer_t* rb) {
