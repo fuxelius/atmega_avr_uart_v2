@@ -5,7 +5,7 @@
  *          Author:       Hans-Henrik Fuxelius   
  *          Date:         Uppsala, 2023-05-29 
  *          License:      MIT
- * 			Version:      RC1      
+ *          Version:      RC1      
  */
 
 #define F_CPU 2666666
