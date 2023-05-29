@@ -3,7 +3,7 @@
  * 
  *          Description:  UART test session 
  *          Author:       Hans-Henrik Fuxelius   
- *          Date:         Uppsala, 2023-05-24 
+ *          Date:         Uppsala, 2023-05-29 
  *          License:      MIT
  * 			Version:      RC1      
  */
