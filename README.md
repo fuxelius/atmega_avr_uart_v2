@@ -1,4 +1,4 @@
-# LIBRARY: Interrupt driven and buffered UART for Microchip AVR devices
+# Library: Interrupt driven and buffered UART for Microchip AVR devices
 **``By Hans-Henrik Fuxelius, 2023-05-24``
 
 This UART library is loosely based on a *Technical Brief* [[TB3216](https://ww1.microchip.com/downloads/en/Appnotes/TB3216-Getting-Started-with-USART-DS90003216.pdf)] from **Microchip** 

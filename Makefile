@@ -1,9 +1,11 @@
 #
 #      Makefile
 # 
-#           Project:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
-#           Author:   Hans-Henrik Fuxelius   
-#           Date:     Uppsala, 2023-05-24           
+#           Description:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
+#           Author:   	  Hans-Henrik Fuxelius   
+#           Date:         Uppsala, 2023-05-24 
+#			License:      MIT   
+#  			Version:      0.1.0       
 # 
 
 # DEVICE ....... The AVR device you compile for

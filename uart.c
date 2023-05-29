@@ -1,9 +1,11 @@
 /*
  *     uart.c
  *
- *          Project:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
- *          Author:   Hans-Henrik Fuxelius   
- *          Date:     Uppsala, 2023-05-24           
+ *          Description:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
+ *          Author:       Hans-Henrik Fuxelius   
+ *          Date:         Uppsala, 2023-05-24 
+ *          License:      MIT
+ * 			Version:      0.1.0          
  */
 
 #include <avr/io.h>
@@ -127,6 +129,10 @@ void usart_send_string_P(volatile usart_meta_t* meta, const char* chr) {
     while ((c = pgm_read_byte(chr++))) {
       	usart_send_char(meta, c);
 	}
+}
+
+uint8_t usart_rx_count(volatile usart_meta_t* meta) {
+	return rbuffer_count(&meta->rb_rx);
 }
 
 uint16_t usart_read_char(volatile usart_meta_t* meta) {
