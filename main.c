@@ -1,11 +1,11 @@
 /*
  *     main.c
  * 
- *          Description:  Test of USART for ATmega4808
+ *          Description:  UART test session 
  *          Author:       Hans-Henrik Fuxelius   
  *          Date:         Uppsala, 2023-05-24 
  *          License:      MIT
- * 			Version:      0.1.0      
+ * 			Version:      RC1      
  */
 
 #define F_CPU 2666666
