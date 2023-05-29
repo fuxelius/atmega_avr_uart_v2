@@ -4,7 +4,7 @@
 #           Description:  UART for megaAVR, tinyAVR & AVR DA DD DB EA
 #           Author:   	  Hans-Henrik Fuxelius   
 #           Date:         Uppsala, 2023-05-29 
-#			License:      MIT   
+#           License:      MIT   
 #           Version:      RC1       
 # 
 
